@@ -1,0 +1,61 @@
+using System;
+using System.IO;
+
+namespace Million
+{
+    class Program
+    {
+        static void Main(string[] args) 
+        {
+            int i;
+            int currentNumber;
+            const int massivLength = 1000000;
+            Random RandomNumbers = new Random();
+            int [] dataMassiv = new int[massivLength];
+            int[] dataMassiv2 = new int[massivLength];
+            int[] dataMassiv3 = new int[massivLength];
+            FileStream fs = new FileStream("millbinary.text", FileMode.Create);
+            //  StreamWriter sw = new StreamWriter(fs);
+            BinaryWriter bw = new BinaryWriter(fs);
+            for (i=0; i < massivLength;i++)
+            {
+                dataMassiv[i] = RandomNumbers.Next();
+               // dataMassiv[i] =i;
+                
+                Console.WriteLine(dataMassiv[i]);
+                bw.Write(dataMassiv[i]);
+            }
+            fs.Close();
+            FileStream fs1 = new FileStream("millbinary.text", FileMode.Open);
+
+            BinaryReader br = new BinaryReader(fs1);
+            for (i = 0; i < massivLength; i++)
+            {
+                dataMassiv2[i] = br.ReadInt32();
+                currentNumber = dataMassiv2[i];
+                Console.WriteLine(currentNumber);
+              }
+            fs1.Close();
+            int temp;
+            temp = dataMassiv2[2];
+            dataMassiv2[2] = dataMassiv2[7];
+            dataMassiv2[7] = temp;
+
+            FileStream fs2 = new FileStream("replace.text", FileMode.Create);
+            BinaryWriter bw2 = new BinaryWriter(fs2);
+            for (i = 0; i < massivLength; i++)
+            {
+                Console.WriteLine(dataMassiv2[i]);
+                bw2.Write(dataMassiv2[i]);
+
+            }
+            fs2.Close();
+            //string million = "million";
+            // byte [] bytes = System.Text.Encoding.UTF8.GetBytes(million);
+            //BinaryWriter bw = new BinaryWriter(fs);
+            //bw.Write(million);
+            //fs.Write(bytes, 0, bytes.Length);
+
+        }
+    }
+}
